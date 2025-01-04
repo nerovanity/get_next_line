@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:39:50 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/03 14:11:22 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/04 10:40:34 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,9 @@ char	*pop_last(char **last, char *buff, size_t byte)
 	char	*str;
 	char	*tmp;
 
-	if (byte == 0)
-	{
-		str = *last;
-		return (last_eof(last, buff, str));
-	}
 	str = *last;
+	if (byte == 0 || byte == -1)
+		return (last_eof(last, buff, str));
 	*last = ft_strjoin(*last, buff);
 	free(str);
 	str = *last;

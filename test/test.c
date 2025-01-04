@@ -1,12 +1,26 @@
-#include "get_next_line.h"
+#include "../get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
+
+#include <stdio.h>
+
 
 int main()
 {
 	int fd;
 
-	fd = open("test",O_RDWR , 0777);
+	FILE *file = fopen("output.txt", "wb");  // Open file in binary write mode
+    if (file == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    char null_char = '\0';  // Null character
+    fwrite(&null_char, sizeof(char), 1, file);  // Write it to the file
+
+    fclose(file);
+    return 0;
+	fd = open("output.txt",O_RDWR , 0777);
 	char *str = get_next_line(fd);
 	while (str != NULL)
 	{
