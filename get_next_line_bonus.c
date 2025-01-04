@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:39:50 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/04 10:38:05 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/04 17:42:26 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ char	*get_line_inlast(char **last, char *buff)
 	return (str);
 }
 
-char	*last_eof(char **last, char *buff, char *str)
+char	*last_eof(char **last, char *buff, char *str, ssize_t byte)
 {
 	*last = NULL;
-	if (str != NULL && *str == '\0')
+	if ((str != NULL && *str == '\0') || byte == -1)
 	{
 		free(str);
 		str = NULL;
@@ -52,14 +52,14 @@ char	*last_eof(char **last, char *buff, char *str)
 	return (str);
 }
 
-char	*pop_last(char **last, char *buff, size_t byte)
+char	*pop_last(char **last, char *buff, ssize_t byte)
 {
 	char	*str;
 	char	*tmp;
 
 	str = *last;
 	if (byte == 0 || byte == -1)
-		return (last_eof(last, buff, str));
+		return (last_eof(last, buff, str, byte));
 	*last = ft_strjoin(*last, buff);
 	free(str);
 	str = *last;
@@ -80,7 +80,7 @@ char	*get_next_line(int fd)
 {
 	static char	*last[1024];
 	char		*buff;
-	size_t		byte;
+	ssize_t		byte;
 	char		*tmp;
 
 	if (fd < 0 || read(fd, NULL, 0) == -1 || BUFFER_SIZE <= 0)
@@ -94,7 +94,8 @@ char	*get_next_line(int fd)
 			&&is_line(last[fd], ft_strlen(last[fd]), '\n') > -1)
 			return (get_line_inlast(&last[fd], buff));
 		byte = read(fd, buff, BUFFER_SIZE);
-		buff[byte] = '\0';
+		if (byte >= 0)
+			buff[byte] = '\0';
 		if (byte < BUFFER_SIZE)
 			return (pop_last(&last[fd], buff, byte));
 		tmp = last[fd];

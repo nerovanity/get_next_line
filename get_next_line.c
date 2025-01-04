@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:39:50 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/04 10:40:34 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/04 17:31:50 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ char	*last_eof(char **last, char *buff, char *str)
 	return (str);
 }
 
-char	*pop_last(char **last, char *buff, size_t byte)
+char	*pop_last(char **last, char *buff, ssize_t byte)
 {
 	char	*str;
 	char	*tmp;
 
 	str = *last;
-	if (byte == 0 || byte == -1)
+	if (byte == 0)
 		return (last_eof(last, buff, str));
 	*last = ft_strjoin(*last, buff);
 	free(str);
@@ -80,12 +80,12 @@ char	*get_next_line(int fd)
 {
 	static char	*last;
 	char		*buff;
-	size_t		byte;
+	ssize_t		byte;
 	char		*tmp;
 
 	if (fd < 0 || read(fd, NULL, 0) == -1 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buff = malloc((size_t)BUFFER_SIZE + 1 * sizeof(char));
+	buff = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 	if (buff == NULL)
 		return (NULL);
 	while (1)
@@ -93,7 +93,8 @@ char	*get_next_line(int fd)
 		if (last != NULL && is_line(last, ft_strlen(last), '\n') > -1)
 			return (get_line_inlast(&last, buff));
 		byte = read(fd, buff, BUFFER_SIZE);
-		buff[byte] = '\0';
+		if (byte >= 0)
+			buff[byte] = '\0';
 		if (byte < BUFFER_SIZE)
 			return (pop_last(&last, buff, byte));
 		tmp = last;

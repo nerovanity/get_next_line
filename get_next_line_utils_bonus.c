@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 12:28:05 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/03 14:13:45 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/04 16:04:04 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strdup(const char *s)
 	size_t	len;
 
 	i = 0;
+	if (s == NULL)
+		return (NULL);
 	len = ft_strlen(s);
 	dup = malloc((len + 1) * sizeof(char));
 	if (!dup)
