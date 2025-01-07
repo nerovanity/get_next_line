@@ -40,28 +40,21 @@ char	*get_line_inlast(char **last, char *buff)
 	return (str);
 }
 
-char	*last_eof(char **last, char *buff, char *str , int fd)
+char	*last_eof(char **last, char *buff, char *str, int fd)
 {
-	if (fd < 0)
+	if (buff == NULL && fd > 0)
 	{
+		free(*last);
+		*last = NULL;
 		return (NULL);
 	}
-	else if (fd > 0)
+	*last = NULL;
+	if (str != NULL && *str == '\0')
 	{
-		if (buff == NULL)
-		{
-			free(*last);
-			*last = NULL;
-			return (NULL);
-		}
-		*last = NULL;
-		if (str != NULL && *str == '\0')
-		{
-			free(str);
-			str = NULL;
-		}
-		free(buff);
+		free(str);
+		str = NULL;
 	}
+	free(buff);
 	return (str);
 }
 
