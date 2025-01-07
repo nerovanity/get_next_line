@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nero <nero@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:39:50 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/07 14:22:54 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/07 20:32:31 by nero             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || read(fd, NULL, 0) == -1 || BUFFER_SIZE <= 0)
 		return (last_eof(last, NULL, NULL, fd));
-	buff = (char *)malloc((long long)BUFFER_SIZE + 1 * sizeof(char));
+	buff = (char *)malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 	if (buff == NULL)
 		return (free(last[fd]), last[fd] = NULL, NULL);
 	while (1)
