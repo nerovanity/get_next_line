@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:39:50 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/07 09:27:56 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/07 14:28:58 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*get_next_line(int fd)
 		return (free(last), last = NULL, NULL);
 	buff = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 	if (buff == NULL)
-		return (NULL);
+		return (free(last), last = NULL, NULL);
 	while (1)
 	{
 		if (last != NULL && is_line(last, ft_strlen(last), '\n') > -1)
