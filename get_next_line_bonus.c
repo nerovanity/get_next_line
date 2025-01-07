@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:39:50 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/05 10:42:41 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/07 09:33:08 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,39 @@ char	*get_line_inlast(char **last, char *buff)
 	return (str);
 }
 
-char	*last_eof(char **last, char *buff, char *str)
+char	*last_eof(char **last, char *buff, char *str , int fd)
 {
-	if (buff == NULL)
+	if (fd < 0)
 	{
-		free(*last);
-		*last = NULL;
 		return (NULL);
 	}
-	*last = NULL;
-	if (str != NULL && *str == '\0')
+	else if (fd > 0)
 	{
-		free(str);
-		str = NULL;
+		if (buff == NULL)
+		{
+			free(*last);
+			*last = NULL;
+			return (NULL);
+		}
+		*last = NULL;
+		if (str != NULL && *str == '\0')
+		{
+			free(str);
+			str = NULL;
+		}
+		free(buff);
 	}
-	free(buff);
 	return (str);
 }
 
-char	*pop_last(char **last, char *buff, ssize_t byte)
+char	*pop_last(char **last, char *buff, ssize_t byte, int fd)
 {
 	char	*str;
 	char	*tmp;
 
 	str = *last;
 	if (byte == 0)
-		return (last_eof(last, buff, str));
+		return (last_eof(last, buff, str, fd));
 	*last = ft_strjoin(*last, buff);
 	free(str);
 	str = *last;
@@ -90,7 +97,7 @@ char	*get_next_line(int fd)
 	char		*tmp;
 
 	if (fd < 0 || read(fd, NULL, 0) == -1 || BUFFER_SIZE <= 0)
-		return (last_eof(&last[fd], NULL, NULL));
+		return (last_eof(&last[fd], NULL, NULL, fd));
 	buff = (char *)malloc((long long)BUFFER_SIZE + 1 * sizeof(char));
 	if (buff == NULL)
 		return (NULL);
@@ -103,7 +110,7 @@ char	*get_next_line(int fd)
 		if (byte >= 0)
 			buff[byte] = '\0';
 		if (byte < BUFFER_SIZE)
-			return (pop_last(&last[fd], buff, byte));
+			return (pop_last(&last[fd], buff, byte, fd));
 		tmp = last[fd];
 		last[fd] = ft_strjoin(last[fd], buff);
 		free(tmp);

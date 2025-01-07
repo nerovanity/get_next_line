@@ -6,7 +6,7 @@
 /*   By: ihamani <ihamani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 11:34:25 by ihamani           #+#    #+#             */
-/*   Updated: 2025/01/03 14:15:14 by ihamani          ###   ########.fr       */
+/*   Updated: 2025/01/07 09:36:22 by ihamani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <limits.h>
 
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s);
